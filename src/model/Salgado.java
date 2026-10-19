@@ -13,7 +13,7 @@ public class Salgado extends ProdutoConfeitaria {
         this.unidadesPorPorcao = unidadesPorPorcao;
     }
 
-    
+    @Override 
     public String getCategoria() {
         return "Salgado";
     }

@@ -38,7 +38,7 @@ public class Main {
             if (op == 1) {
                 menuClientes();
             } else if (op == 2) {
-                menuBolos();
+                menuProdutos();
             } else if (op == 3) {
                 menuEncomendas();
             } else if (op == 0) {
@@ -125,12 +125,12 @@ public class Main {
         } else if (clienteTemEncomenda(c)) {
             System.out.println("Não dá pra excluir, o cliente tem encomendas.");
         } else {
-            clientes.remove(c);
+                clientes.remove(c);
             System.out.println("Cliente excluído!");
         }
     }
 
-    static void menuBolos() {
+    static void menuProdutos() {
         int op;
 
         do {
@@ -144,16 +144,16 @@ public class Main {
 
             switch (op) {
                 case 1:
-                    cadastrarBolo();
+                    cadastrarProduto();
                     break;
                 case 2:
-                    listarBolos();
+                    listarProdutos();
                     break;
                 case 3:
-                    atualizarBolo();
+                    atualizarProduto();
                     break;
                 case 4:
-                    excluirBolo();
+                    excluirProduto();
                     break;
                 case 0:
                     break;
@@ -163,7 +163,7 @@ public class Main {
         } while (op != 0);
     }
 
-    static void cadastrarBolo() {
+    static void cadastrarProduto() {
         System.out.println("1 - Bolo comum");
         System.out.println("2 - Bolo a combinar");
         System.out.println("3 - Bolo de casamento");
@@ -251,13 +251,13 @@ public class Main {
         System.out.println("Produto cadastrado!");
     }
 
-    static void listarBolos() {
+    static void listarProdutos() {
         if (produtos.isEmpty()) {
-            System.out.println("Nenhum bolo cadastrado.");
+            System.out.println("Nenhum produto cadastrado.");
             return;
         }
 
-        String resposta = lerTexto("Filtrar por tipo de bolo? (S/N): ").toUpperCase();
+        String resposta = lerTexto("Filtrar por tipo de produto? (S/N): ").toUpperCase();
 
         if (!resposta.equals("S")) {
             for (ProdutoConfeitaria p : produtos) {
@@ -314,33 +314,33 @@ public class Main {
         }
 
         if (!achou) {
-            System.out.println("Nenhum bolo encontrado para esse filtro.");
+            System.out.println("Nenhum produto encontrado para esse filtro.");
         }
     }
 
-    static void atualizarBolo() {
-        ProdutoConfeitaria p = buscarProduto(lerInt("ID do bolo: "));
+    static void atualizarProduto() {
+        ProdutoConfeitaria p = buscarProduto(lerInt("ID do produto: "));
 
         if (p == null) {
-            System.out.println("Bolo não encontrado.");
+            System.out.println("Produto não encontrado.");
             return;
         }
 
         p.setNome(lerTexto("Novo nome: "));
         p.setPrecoBase(lerDouble("Novo preço: "));
-        System.out.println("Bolo atualizado!");
+        System.out.println("Produto atualizado!");
     }
 
-    static void excluirBolo() {
-        ProdutoConfeitaria p = buscarProduto(lerInt("ID do bolo: "));
+    static void excluirProduto() {
+        ProdutoConfeitaria p = buscarProduto(lerInt("ID do produto: "));
 
         if (p == null) {
-            System.out.println("Bolo não encontrado.");
+            System.out.println("Produto não encontrado.");
         } else if (produtoEmEncomenda(p)) {
-            System.out.println("Não dá pra excluir, o bolo está em uma encomenda.");
+            System.out.println("Não dá pra excluir, o produto está em uma encomenda.");
         } else {
             produtos.remove(p);
-            System.out.println("Bolo excluído!");
+            System.out.println("Produto excluído!");
         }
     }
 
@@ -379,18 +379,18 @@ public class Main {
 
     static void criarEncomenda() {
         if (clientes.isEmpty() || produtos.isEmpty()) {
-            System.out.println("Cadastre pelo menos um cliente e um bolo antes.");
+            System.out.println("Cadastre pelo menos um cliente e um produto antes.");
             return;
         }
 
         listarClientes();
         Cliente cliente = buscarCliente(lerInt("ID do cliente: "));
 
-        listarBolos();
-        ProdutoConfeitaria produto = buscarProduto(lerInt("ID do bolo: "));
+        listarProdutos();
+        ProdutoConfeitaria produto = buscarProduto(lerInt("ID do produto: "));
 
         if (cliente == null || produto == null) {
-            System.out.println("Cliente ou bolo não encontrado.");
+            System.out.println("Cliente ou produto não encontrado.");
             return;
         }
 
@@ -491,19 +491,20 @@ public class Main {
         return false;
     }
 
+
+
+// melhor ideia q ja tive na vida
+
     static boolean lerSimNao(String msg) {
         return lerTexto(msg).equalsIgnoreCase("S");
     }
-
     static String lerTexto(String msg) {
         System.out.print(msg);
         return sc.nextLine();
     }
-
     static int lerInt(String msg) {
         return Integer.parseInt(lerTexto(msg));
     }
-
     static double lerDouble(String msg) {
         return Double.parseDouble(lerTexto(msg).replace(",", "."));
     }

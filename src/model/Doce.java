@@ -13,7 +13,7 @@ public class Doce extends ProdutoConfeitaria {
         this.unidadesPorPorcao = unidadesPorPorcao;
     }
 
-    
+    @Override 
     public String getCategoria() {
         return "Doce";
     }

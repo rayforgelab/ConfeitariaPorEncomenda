@@ -11,7 +11,7 @@ public class BoloACombinar extends ProdutoConfeitaria {
         this.descricao = descricao;
     }
 
-    
+    @Override 
     public String getCategoria() {
         return "Bolo a Combinar";
     }
