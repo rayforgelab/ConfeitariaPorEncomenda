@@ -30,7 +30,7 @@ public class Main {
         do {
             System.out.println("\n===== CONFEITARIA =====");
             System.out.println("1 - Clientes");
-            System.out.println("2 - Bolos");
+            System.out.println("2 - Produtos");
             System.out.println("3 - Encomendas");
             System.out.println("0 - Sair");
             op = lerInt("Opção: ");
@@ -134,7 +134,7 @@ public class Main {
         int op;
 
         do {
-            System.out.println("\n--- Bolos ---");
+            System.out.println("\n--- Produtos ---");
             System.out.println("1 - Cadastrar");
             System.out.println("2 - Listar");
             System.out.println("3 - Atualizar");
@@ -164,16 +164,91 @@ public class Main {
     }
 
     static void cadastrarBolo() {
+        System.out.println("1 - Bolo comum");
+        System.out.println("2 - Bolo a combinar");
+        System.out.println("3 - Bolo de casamento");
+        System.out.println("4 - Bolo personalizado");
+        System.out.println("5 - Bolo temático");
+        System.out.println("6 - Doce");
+        System.out.println("7 - Salgado");
+        int tipo = lerInt("Tipo: ");
+
+        if (tipo < 1 || tipo > 7) {
+            System.out.println("Tipo inválido.");
+            return;
+        }
+
         String nome = lerTexto("Nome: ");
         double preco = lerDouble("Preço: ");
-        String tamanho = lerTexto("Tamanho: ");
-        String sabor = lerTexto("Sabor: ");
-        String recheio = lerTexto("Recheio: ");
-        String cobertura = lerTexto("Cobertura: ");
 
-        produtos.add(new Bolo(proxProduto, nome, preco, tamanho, sabor, recheio, cobertura));
+        String tamanho = "";
+        String sabor = "";
+        String recheio = "";
+        String cobertura = "";
+
+        if (tipo == 1 || tipo == 3 || tipo == 4 || tipo == 5) {
+            tamanho = lerTexto("Tamanho: ");
+            sabor = lerTexto("Sabor: ");
+            recheio = lerTexto("Recheio: ");
+            cobertura = lerTexto("Cobertura: ");
+        }
+
+        ProdutoConfeitaria novo = null;
+
+        switch (tipo) {
+            case 1:
+                novo = new Bolo(proxProduto, nome, preco, tamanho, sabor, recheio, cobertura);
+                break;
+            case 2: {
+                String descricao = lerTexto("Descrição: ");
+                novo = new BoloACombinar(proxProduto, nome, preco, descricao);
+                break;
+            }
+            case 3: {
+                int camadas = lerInt("Camadas: ");
+                boolean bonecos = lerSimNao("Bonecos decorativos no topo? (S/N): ");
+                String decoracao = lerTexto("Decoração: ");
+                String frutas = lerTexto("Frutas: ");
+                String biscoito = lerTexto("Biscoito: ");
+                novo = new BoloCasamento(proxProduto, nome, preco, tamanho, sabor, recheio, cobertura,
+                        camadas, bonecos, decoracao, frutas, biscoito);
+                break;
+            }
+            case 4: {
+                int camadas = lerInt("Camadas: ");
+                boolean caixa = lerSimNao("Caixa enfeitada? (S/N): ");
+                String frutas = lerTexto("Frutas: ");
+                String biscoito = lerTexto("Biscoito: ");
+                novo = new BoloPersonalizado(proxProduto, nome, preco, tamanho, sabor, recheio, cobertura,
+                        camadas, caixa, frutas, biscoito);
+                break;
+            }
+            case 5: {
+                int camadas = lerInt("Camadas: ");
+                String tema = lerTexto("Tema: ");
+                String referencia = lerTexto("Referência: ");
+                String objetos = lerTexto("Objetos decorativos: ");
+                novo = new BoloTematico(proxProduto, nome, preco, tamanho, sabor, recheio, cobertura,
+                        camadas, tema, referencia, objetos);
+                break;
+            }
+            case 6: {
+                String tipoDoce = lerTexto("Tipo do doce: ");
+                int unidades = lerInt("Unidades por porção: ");
+                novo = new Doce(proxProduto, nome, preco, tipoDoce, unidades);
+                break;
+            }
+            case 7: {
+                String tipoSalgado = lerTexto("Tipo do salgado: ");
+                int unidades = lerInt("Unidades por porção: ");
+                novo = new Salgado(proxProduto, nome, preco, tipoSalgado, unidades);
+                break;
+            }
+        }
+
+        produtos.add(novo);
         proxProduto++;
-        System.out.println("Bolo cadastrado!");
+        System.out.println("Produto cadastrado!");
     }
 
     static void listarBolos() {
@@ -414,6 +489,10 @@ public class Main {
             }
         }
         return false;
+    }
+
+    static boolean lerSimNao(String msg) {
+        return lerTexto(msg).equalsIgnoreCase("S");
     }
 
     static String lerTexto(String msg) {
