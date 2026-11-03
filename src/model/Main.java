@@ -1,7 +1,6 @@
 package model;
 
 import java.time.LocalDateTime;
-// E4 - Exceções específicas: número inválido, data inválida e fim da entrada.
 import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
 import java.util.Locale;
@@ -21,11 +20,6 @@ public class Main {
     static int proxProduto = 1;
     static int proxEncomenda = 1;
 
-    /* ======================================================================
-     * E4 - PONTO ÚNICO DE ENTRADA
-     * O menu principal do E3 foi preservado: reúne clientes, produtos e pedidos.
-     * No fim da entrada (Ctrl+D, por exemplo), encerramos sem stack trace.
-     * ====================================================================== */
     public static void main(String[] args) {
         try {
             executarSistema();
@@ -53,7 +47,6 @@ public class Main {
             System.out.println("2 - Produtos");
             System.out.println("3 - Encomendas");
             System.out.println("0 - Sair");
-            // E4 - Também recusamos opções numéricas fora das opções deste menu.
             op = lerIntEntre("Opção: ", 0, 3);
 
             if (op == 1) {
@@ -80,7 +73,6 @@ public class Main {
             System.out.println("3 - Atualizar");
             System.out.println("4 - Excluir");
             System.out.println("0 - Voltar");
-            // E4 - Também recusamos opções numéricas fora das opções deste menu.
             op = lerIntEntre("Opção: ", 0, 4);
 
             switch (op) {
@@ -162,7 +154,6 @@ public class Main {
             System.out.println("3 - Atualizar");
             System.out.println("4 - Excluir");
             System.out.println("0 - Voltar");
-            // E4 - Também recusamos opções numéricas fora das opções deste menu.
             op = lerIntEntre("Opção: ", 0, 4);
 
             switch (op) {
@@ -194,11 +185,9 @@ public class Main {
         System.out.println("5 - Bolo temático");
         System.out.println("6 - Doce");
         System.out.println("7 - Salgado");
-        // E4 - Não abandona o cadastro: repete até receber um tipo existente.
         int tipo = lerIntEntre("Tipo: ", 1, 7);
 
         String nome = lerTextoObrigatorio("Nome: ");
-        // E4 - Um preço válido é finito e não pode ser negativo.
         double preco = lerValorNaoNegativo("Preço: ");
 
         String tamanho = "";
@@ -225,7 +214,6 @@ public class Main {
                 break;
             }
             case 3: {
-                // E4 - Quantidades físicas precisam ser inteiros positivos.
                 int camadas = lerIntPositivo("Camadas: ");
                 boolean bonecos = lerSimNao("Bonecos decorativos no topo? (S/N): ");
                 String decoracao = lerTexto("Decoração: ");
@@ -236,7 +224,6 @@ public class Main {
                 break;
             }
             case 4: {
-                // E4 - Quantidades físicas precisam ser inteiros positivos.
                 int camadas = lerIntPositivo("Camadas: ");
                 boolean caixa = lerSimNao("Caixa enfeitada? (S/N): ");
                 String frutas = lerTexto("Frutas: ");
@@ -246,7 +233,6 @@ public class Main {
                 break;
             }
             case 5: {
-                // E4 - Quantidades físicas precisam ser inteiros positivos.
                 int camadas = lerIntPositivo("Camadas: ");
                 String tema = lerTexto("Tema: ");
                 String referencia = lerTexto("Referência: ");
@@ -257,14 +243,12 @@ public class Main {
             }
             case 6: {
                 String tipoDoce = lerTexto("Tipo do doce: ");
-                // E4 - Não existe uma porção com zero unidades ou unidades negativas.
                 int unidades = lerIntPositivo("Unidades por porção: ");
                 novo = new Doce(proxProduto, nome, preco, tipoDoce, unidades);
                 break;
             }
             case 7: {
                 String tipoSalgado = lerTexto("Tipo do salgado: ");
-                // E4 - Não existe uma porção com zero unidades ou unidades negativas.
                 int unidades = lerIntPositivo("Unidades por porção: ");
                 novo = new Salgado(proxProduto, nome, preco, tipoSalgado, unidades);
                 break;
@@ -282,7 +266,6 @@ public class Main {
             return;
         }
 
-        // E4 - A resposta precisa ser S ou N; letras diferentes serão recusadas.
         boolean filtrar = lerSimNao("Filtrar por tipo de produto? (S/N): ");
 
         if (!filtrar) {
@@ -297,7 +280,6 @@ public class Main {
         System.out.println("3 - Bolo de casamento");
         System.out.println("4 - Bolo personalizado");
         System.out.println("5 - Bolo temático");
-        // E4 - O filtro agora abrange também as duas categorias que faltavam.
         System.out.println("6 - Doce");
         System.out.println("7 - Salgado");
         int tipo = lerIntEntre("Tipo: ", 1, 7);
@@ -331,7 +313,6 @@ public class Main {
                         mostrar = tema.isEmpty() || bt.getTema().equalsIgnoreCase(tema);
                     }
                     break;
-                // E4 - Novos casos completam a filtragem da hierarquia do E3.
                 case 6:
                     mostrar = p instanceof Doce;
                     break;
@@ -363,7 +344,6 @@ public class Main {
         }
 
         p.setNome(lerTextoObrigatorio("Novo nome: "));
-        // E4 - A atualização usa a mesma validação do cadastro.
         p.setPrecoBase(lerValorNaoNegativo("Novo preço: "));
         System.out.println("Produto atualizado!");
     }
@@ -390,7 +370,6 @@ public class Main {
             System.out.println("2 - Listar");
             System.out.println("3 - Atualizar");
             System.out.println("4 - Excluir");
-            // E4 - Integra os itens e a consulta da regra ao mesmo fluxo de console.
             System.out.println("5 - Gerenciar itens e consultar orçamento");
             System.out.println("0 - Voltar");
             op = lerIntEntre("Opção: ", 0, 5);
@@ -408,7 +387,6 @@ public class Main {
                 case 4:
                     excluirEncomenda();
                     break;
-                // E4 - A mesma encomenda pode reunir diferentes tipos de produto.
                 case 5:
                     gerenciarItens();
                     break;
@@ -437,13 +415,6 @@ public class Main {
             return;
         }
 
-        /* ==================================================================
-         * E4 - CRIAÇÃO COM ORÇAMENTO AUTOMÁTICO
-         * O item guarda o preço unitário vigente e calcula quantidade x preço
-         * + adicionais, conforme a proposta E1. A encomenda soma os itens.
-         * As datas usam precisão de minuto, como o formato digitado.
-         * Só salvamos e avançamos o ID depois de validar a encomenda.
-         * ================================================================== */
         LocalDateTime dataPedido = LocalDateTime.now().withSecond(0).withNano(0);
         LocalDateTime dataEntrega = lerData("Entrega (dd/MM/yyyy HH:mm): ");
         String obs = lerTexto("Observação: ");
@@ -487,8 +458,6 @@ public class Main {
             return;
         }
 
-        /* E4 - Reagendamento opcional: mantém o comportamento anterior de
-         * atualizar status/observação e acrescenta validação para a nova data. */
         if (lerSimNao("Alterar também a data de entrega? (S/N): ")) {
             while (true) {
                 LocalDateTime novaData = lerData("Nova entrega (dd/MM/yyyy HH:mm): ");
@@ -564,11 +533,6 @@ public class Main {
     }
 
 
-    /* ======================================================================
-     * E4 - ITENS INTEGRADOS AO MENU
-     * Adicionar, editar e remover usam os métodos de Encomenda. A regra fica
-     * no modelo; aqui apenas mostramos as mensagens ao usuário.
-     * ====================================================================== */
     static void gerenciarItens() {
         Encomenda e = buscarEncomenda(lerInt("ID da encomenda: "));
         if (e == null) {
@@ -581,7 +545,6 @@ public class Main {
             for (ItemEncomenda item : e.getItens()) {
                 System.out.println(item);
             }
-            // E4 - O orçamento é recalculado depois de cada inclusão, edição ou remoção.
             System.out.printf("Total da encomenda: R$ %.2f%n", e.calcularValorTotal());
             System.out.println("1 - Adicionar item");
             System.out.println("2 - Atualizar item usando o preço atual do cardápio");
@@ -591,7 +554,6 @@ public class Main {
             if (op == 1 || op == 2) {
                 salvarItem(e, op == 2);
             } else if (op == 3) {
-                // E4 - Evita deixar uma encomenda sem nenhum produto.
                 if (e.getItens().size() == 1) {
                     System.out.println("A encomenda precisa manter pelo menos um item.");
                 } else {
@@ -603,7 +565,6 @@ public class Main {
     }
 
     static void salvarItem(Encomenda e, boolean atualizar) {
-        // E4 - O maior ID + 1 evita reaproveitar o ID de um item ainda existente.
         int idItem = 1;
         for (ItemEncomenda item : e.getItens()) {
             if (item.getId() >= idItem) {
@@ -631,7 +592,6 @@ public class Main {
         }
         int quantidade = lerIntPositivo("Quantidade: ");
         double adicional = lerValorNaoNegativo("Valor adicional total do item: ");
-        // E4 - Editar um item refaz seu orçamento usando o preço atual do produto.
         try {
             ItemEncomenda novo = new ItemEncomenda(idItem, quantidade, adicional, produto);
             if (atualizar) {
@@ -641,19 +601,11 @@ public class Main {
             }
             System.out.println("Item salvo!");
         } catch (IllegalArgumentException erro) {
-            // E4 - A operação recusada preserva os itens e a data anteriores.
             System.out.println("Item recusado: " + erro.getMessage());
             System.out.println("Confira os valores e tente novamente.");
         }
     }
 
-    /* ======================================================================
-     * E4 - LEITORES SEGUROS COM TRY/CATCH
-     * Lemos uma linha inteira e usamos outro Scanner só para interpretar essa
-     * linha. nextInt/nextDouble lançam InputMismatchException se o dado não
-     * corresponder ao tipo. Como a linha já foi consumida, a próxima tentativa
-     * não fica presa no mesmo caractere inválido nem pula campos de texto.
-     * ====================================================================== */
     static int lerInt(String msg) {
         while (true) {
             try (Scanner entrada = new Scanner(lerTexto(msg))) {
@@ -673,14 +625,12 @@ public class Main {
 
     static double lerDouble(String msg) {
         while (true) {
-            // E4 - Aceita 12,50 ou 12.50, sem separador de milhar.
             String texto = lerTexto(msg).trim().replace(',', '.');
             try (Scanner entrada = new Scanner(texto).useLocale(Locale.US)) {
                 if (!entrada.hasNext()) {
                     throw new InputMismatchException();
                 }
                 double valor = entrada.nextDouble();
-                // E4 - NaN e infinito não são valores monetários válidos.
                 if (entrada.hasNext() || !Double.isFinite(valor)) {
                     throw new InputMismatchException();
                 }
@@ -691,7 +641,6 @@ public class Main {
         }
     }
 
-    // E4 - Distingue número bem escrito de número permitido naquele campo.
     static int lerIntEntre(String msg, int minimo, int maximo) {
         while (true) {
             int valor = lerInt(msg);
@@ -722,7 +671,6 @@ public class Main {
         }
     }
 
-    // E4 - Valida formato e calendário: 31/02 não é uma data válida.
     static LocalDateTime lerData(String msg) {
         while (true) {
             try {
@@ -733,7 +681,6 @@ public class Main {
         }
     }
 
-    // E4 - Qualquer coisa diferente de S/N precisa ser digitada novamente.
     static boolean lerSimNao(String msg) {
         while (true) {
             String resposta = lerTexto(msg).trim();
@@ -747,7 +694,6 @@ public class Main {
         }
     }
 
-    // E4 - Nome e status são obrigatórios; campos opcionais usam lerTexto.
     static String lerTextoObrigatorio(String msg) {
         while (true) {
             String texto = lerTexto(msg).trim();

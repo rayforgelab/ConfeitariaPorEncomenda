@@ -3,11 +3,6 @@ package model;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 
-/* ===========================================================================
- * E4 - VERIFICAÇÃO DA REGRA DE NEGÓCIO
- * Testes sem bibliotecas externas. São executados separadamente do menu.
- * Cada verificar compara um comportamento esperado; falhas lançam AssertionError.
- * =========================================================================== */
 public class TestesE4 {
     private static int verificacoes = 0;
 
@@ -39,7 +34,6 @@ public class TestesE4 {
         ProdutoConfeitaria bolo = new Bolo(1, "Bolo", 50, "M", "Chocolate", "Brigadeiro", "Ganache");
         ProdutoConfeitaria doce = new Doce(2, "Brigadeiro", 2, "Tradicional", 1);
 
-        // E4 - Exemplo da regra: 2 x 50 + 15 = 115; 10 x 2 + 0 = 20; total = 135.
         ItemEncomenda itemBolo = new ItemEncomenda(1, 2, 15, bolo);
         ItemEncomenda itemDoce = new ItemEncomenda(2, 10, 0, doce);
         verificarValor(115, itemBolo.calcularValorItem(), "Adicional deve ser somado uma única vez");
@@ -48,7 +42,6 @@ public class TestesE4 {
         encomenda.adicionarItem(itemDoce);
         verificarValor(135, encomenda.calcularValorTotal(), "Soma dos itens");
 
-        // E4 - Mudar o cardápio preserva o orçamento; um novo item captura o preço novo.
         bolo.setPrecoBase(80);
         verificarValor(50, itemBolo.getPrecoUnitario(), "Preço unitário registrado");
         verificarValor(115, itemBolo.calcularValorItem(), "Item anterior deve manter seu valor");
@@ -81,7 +74,6 @@ public class TestesE4 {
         verificarValor(0.3, new ItemEncomenda(4, 3, 0,
                 new Doce(4, "Doce", 0.1, "Teste", 1)).calcularValorItem(), "Valor decimal");
 
-        // E4 - A regra de datas também é validada fora do menu.
         deveRecusar(() -> new Encomenda(2, cliente, pedido, pedido.minusMinutes(1), "", ""),
                 "Entrega anterior ao pedido");
         deveRecusar(() -> new Encomenda(2, null, pedido, pedido.plusDays(1), "", ""), "Cliente ausente");
@@ -99,7 +91,6 @@ public class TestesE4 {
         verificar(LocalDateTime.parse("29/02/2028 10:00", Encomenda.FORMATO).getDayOfMonth() == 29,
                 "Data válida em ano bissexto");
 
-        // E4 - A lista de itens só pode ser modificada pelos métodos da encomenda.
         boolean listaProtegida = false;
         try {
             encomenda.getItens().clear();
