@@ -28,6 +28,6 @@ public class Doce extends ProdutoConfeitaria {
 
     @Override
     public String toString() {
-    	return super.toString() + String.format(" | Tipo: %s | Unidades/porcao: %d", tipo, unidadesPorPorcao);
+        return super.toString() + String.format(" | Tipo: %s | Unidades/porcao: %d", tipo, unidadesPorPorcao);
     }
 }

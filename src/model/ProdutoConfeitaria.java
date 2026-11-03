@@ -13,7 +13,8 @@ public abstract class ProdutoConfeitaria {
     public ProdutoConfeitaria(int id, String nome, double precoBase) {
         this.id = id;
         this.nome = nome;
-        this.precoBase = precoBase;
+        // E4 - Centraliza a proteção do preço, tanto na criação quanto na edição.
+        setPrecoBase(precoBase);
     }
 
     public int getId() {
@@ -33,6 +34,14 @@ public abstract class ProdutoConfeitaria {
     }
 
     public void setPrecoBase(double precoBase) {
+        /* ==================================================================
+         * E4 - PREÇO VÁLIDO PARA O ORÇAMENTO
+         * Não é permitido um preço negativo, NaN ou infinito. O menu pede
+         * novamente o valor; esta classe também impede uso inválido por código.
+         * ================================================================== */
+        if (!Double.isFinite(precoBase) || precoBase < 0) {
+            throw new IllegalArgumentException("O preço deve ser finito e não negativo.");
+        }
         this.precoBase = precoBase;
     }
 
