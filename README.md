@@ -20,9 +20,6 @@ Escolha o comando para o seu sistema. Windows e Linux abrem o app em uma janela 
 | Linux          | `flutter run -d linux`   |
 | Web com Chrome | `flutter run -d chrome`  |
 
-- No Windows, instale o Visual Studio com a carga de trabalho **Desenvolvimento para desktop com C++**. [Guia do Flutter para Windows](https://docs.flutter.dev/platform-integration/windows/setup)
-- No Linux, instale as ferramentas de compilação e as bibliotecas de desenvolvimento do GTK 3 para a sua distribuição. [Guia do Flutter para Linux](https://docs.flutter.dev/platform-integration/linux/setup)
-
 Use `flutter doctor -v` para verificar o ambiente. Para gerar uma versão de distribuição, rode `flutter build windows` no Windows ou `flutter build linux` no Linux.
 
 Para usar a versão web em outro navegador, inicie o servidor do Flutter.
